@@ -41,22 +41,6 @@ function setColor(isHardMode) {
   }
 }
 
-function winnerLoserAction(correctOrIncorrect, optionColor) {
-  if (correctOrIncorrect === "correct") {
-    document.body.innerHTML = "You Won";
-    document.body.style.backgroundColor = mainDisplay.textContent;
-    console.log("winner");
-  } else {
-    const savingOptionColor = optionColor;
-    optionColor = "red";
-
-    setTimeout(() => {
-      optionColor = savingOptionColor;
-    }, 500);
-    console.log("loser");
-  }
-}
-
 // main functionality
 
 options.forEach(option => {
@@ -66,7 +50,16 @@ options.forEach(option => {
       e.target.dataset.color
     );
 
-    winnerLoserAction(checkForWinner, e.target.dataset.color);
+    if (checkForWinner === "correct") {
+      window.location.href = "/result.html";
+      console.log("winner");
+    } else {
+      e.target.style.backgroundColor = "red";
+
+      setTimeout(() => {
+        e.target.style.backgroundColor = e.target.dataset.color;
+      }, 1000);
+    }
   });
 });
 

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/javascript/script.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/javascript/result.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -121,27 +121,15 @@ eval("\n\nvar isOldIE = function isOldIE() {\n  var memo;\n  return function mem
 
 /***/ }),
 
-/***/ "./src/javascript/ColorGameClass.js":
-/*!******************************************!*\
-  !*** ./src/javascript/ColorGameClass.js ***!
-  \******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return ColorGame; });\nclass ColorGame {\r\n  randomColorGenerator() {\r\n    return `rgb(${Math.floor(Math.random() * 256)},${Math.floor(\r\n      Math.random() * 256\r\n    )},${Math.floor(Math.random() * 256)})`;\r\n  }\r\n\r\n  generateMathRandom(arr) {\r\n    return arr[Math.floor(Math.random() * arr.length)];\r\n  }\r\n\r\n  randomColorForDisplayAndOptions() {\r\n    return [\r\n      this.randomColorGenerator(),\r\n      this.randomColorGenerator(),\r\n      this.randomColorGenerator(),\r\n      this.randomColorGenerator()\r\n    ];\r\n  }\r\n\r\n  randomColorForDisplayAndOptionsForHardMode() {\r\n    return [\r\n      this.randomColorGenerator(),\r\n      this.randomColorGenerator(),\r\n      this.randomColorGenerator(),\r\n      this.randomColorGenerator(),\r\n      this.randomColorGenerator(),\r\n      this.randomColorGenerator(),\r\n      this.randomColorGenerator(),\r\n      this.randomColorGenerator()\r\n    ];\r\n  }\r\n\r\n  checkForWin(mainDisplayColor, optionColor) {\r\n    if (mainDisplayColor === optionColor) {\r\n      return \"correct\";\r\n    } else {\r\n      return \"incorrect\";\r\n    }\r\n  }\r\n}\r\n\n\n//# sourceURL=webpack:///./src/javascript/ColorGameClass.js?");
-
-/***/ }),
-
-/***/ "./src/javascript/script.js":
+/***/ "./src/javascript/result.js":
 /*!**********************************!*\
-  !*** ./src/javascript/script.js ***!
+  !*** ./src/javascript/result.js ***!
   \**********************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style.css */ \"./src/style.css\");\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_css__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _ColorGameClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ColorGameClass */ \"./src/javascript/ColorGameClass.js\");\n\r\n\r\n\r\nconst container = document.querySelector(\".container\");\r\nconst mainDisplay = document.querySelector(\".container__main-display\");\r\nconst options = document.querySelectorAll(\".container__options\");\r\nconst optionsArrHardMode = document.querySelectorAll(\r\n  \".container__options--hardmode\"\r\n);\r\nconst gameSwitchBtn = document.querySelector(\".game-switch-btn\");\r\n\r\nconst colorGame = new _ColorGameClass__WEBPACK_IMPORTED_MODULE_1__[\"default\"]();\r\n\r\nfunction setColor(isHardMode) {\r\n  if (isHardMode) {\r\n    const randomColorArrFour = colorGame.randomColorForDisplayAndOptionsForHardMode();\r\n\r\n    options.forEach((option, index) => {\r\n      const colorForOption = randomColorArrFour[index];\r\n      option.setAttribute(\"data-color\", colorForOption);\r\n      option.style.backgroundColor = colorForOption;\r\n    });\r\n\r\n    const mainDisplayColorText = colorGame.generateMathRandom(\r\n      randomColorArrFour\r\n    );\r\n    mainDisplay.innerHTML = mainDisplayColorText;\r\n  } else {\r\n    const randomColorArrFour = colorGame.randomColorForDisplayAndOptions();\r\n\r\n    options.forEach((option, index) => {\r\n      const colorForOption = randomColorArrFour[index];\r\n      option.setAttribute(\"data-color\", colorForOption);\r\n      option.style.backgroundColor = colorForOption;\r\n    });\r\n\r\n    const mainDisplayColorText = colorGame.generateMathRandom(\r\n      randomColorArrFour\r\n    );\r\n    mainDisplay.innerHTML = mainDisplayColorText;\r\n  }\r\n}\r\n\r\n// main functionality\r\n\r\noptions.forEach(option => {\r\n  option.addEventListener(\"click\", function(e) {\r\n    const checkForWinner = colorGame.checkForWin(\r\n      mainDisplay.textContent,\r\n      e.target.dataset.color\r\n    );\r\n\r\n    if (checkForWinner === \"correct\") {\r\n      window.location.href = \"/result.html\";\r\n      console.log(\"winner\");\r\n    } else {\r\n      e.target.style.backgroundColor = \"red\";\r\n\r\n      setTimeout(() => {\r\n        e.target.style.backgroundColor = e.target.dataset.color;\r\n      }, 1000);\r\n    }\r\n  });\r\n});\r\n\r\nsetColor(false);\r\n\r\ngameSwitchBtn.addEventListener(\"click\", function(e) {\r\n  if (e.target.innerText === \"Hard Mode\") {\r\n    e.target.innerHTML = \"Normal Mode\";\r\n    container.classList.remove(\"container\");\r\n    container.classList.add(\"container__new\");\r\n\r\n    optionsArrHardMode.forEach(option => {\r\n      option.classList.remove(\"container__hidden\");\r\n    });\r\n    setColor(true);\r\n  } else {\r\n    container.classList.add(\"container\");\r\n    container.classList.remove(\"container__new\");\r\n    e.target.innerHTML = \"Hard Mode\";\r\n    optionsArrHardMode.forEach(option => {\r\n      option.classList.add(\"container__hidden\");\r\n    });\r\n    setColor(false);\r\n  }\r\n});\r\n\n\n//# sourceURL=webpack:///./src/javascript/script.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style.css */ \"./src/style.css\");\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_css__WEBPACK_IMPORTED_MODULE_0__);\n\n\n//# sourceURL=webpack:///./src/javascript/result.js?");
 
 /***/ }),
 
